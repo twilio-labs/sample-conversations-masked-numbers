@@ -1,9 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p Head over to 
-    a(href="/example")
-      code /example
-    | for some JSON example output 
+  h1 2-way Masked Phone Number SMS Conversation
+  a.btn.btn-primary(href='add-phone') Add Phone Number
+  table.table
+    thead
+      th Phone Number
+      th Latest Active
+    tbody
+      for phoneNumber in phoneNumbers
+        tr
+          td= phoneNumber.number
+          td= phoneNumber.latestActivity
+      else
+        tr
+          td(colspan=2) There are no phone numbers registered
+
+

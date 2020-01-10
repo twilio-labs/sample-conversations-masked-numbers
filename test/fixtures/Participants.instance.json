@@ -1,0 +1,17 @@
+{
+  "account_sid": "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "sid": "MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "identity": null,
+  "attributes": {
+    "role": "driver"
+  },
+  "messaging_binding": {
+    "type": "sms",
+    "address": "+1234567890",
+    "proxy_address": "+15017122661"
+  },
+  "date_created": "2015-12-16T22:18:37Z",
+  "date_updated": "2015-12-16T22:18:38Z",
+  "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Participants/MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+}

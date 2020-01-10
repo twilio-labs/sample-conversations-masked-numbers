@@ -1,17 +1,16 @@
 {
-  "name": "sample-template-node",
+  "name": "sample-conversations-masked-numbers",
   "version": "1.0.0",
   "private": true,
   "main": "./app.js",
   "scripts": {
     "start": "node .",
     "setup": "configure-env",
-    "pretest": "cross-env NODE_ENV=test",
-    "test": "eslint . && mocha test",
+    "test": "eslint . && cross-env NODE_ENV=test mocha test",
     "format": "eslint . --fix",
     "dev": "nodemon ."
   },
-  "description": "Node.js template for Twilio sample apps",
+  "description": "2-way Masked Phone Number SMS Conversation",
   "author": {
     "name": "Twilio",
     "email": "open-source@twilio.com"
@@ -19,7 +18,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/twilio-labs/sample-template-node"
+    "url": "https://github.com/TwilioDevEd/sample-conversations-masked-numbers"
   },
   "keywords": [
     "node",
@@ -36,6 +35,8 @@
     "debug": ">=2.6.9",
     "dotenv-safe": "^4.0.4",
     "express": "^4.17.1",
+    "lowdb": "^1.0.0",
+    "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "pug": "^2.0.0-beta.12",
     "serve-favicon": "^2.5.0",
