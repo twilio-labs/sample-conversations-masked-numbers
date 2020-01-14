@@ -2,13 +2,15 @@
 <img  src="https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg"  alt="Twilio"  width="250"  />
 </a>
  
-# Twilio Sample App Template
+# 2-way Masked Phone Number SMS Conversation
 
-[![Actions Status](https://github.com/twilio-labs/sample-template-nodejs/workflows/Node%20CI/badge.svg)](https://github.com/twilio-labs/sample-appointment-reminders/actions)
+[![Actions Status](https://github.com/twilio-labs/sample-conversations-masked-numbers/workflows/Node%20CI/badge.svg)](https://github.com/twilio-labs/sample-appointment-reminders/actions)
 
 ## About
 
-This is a GitHub template for creating other [Twilio] sample/template apps. It contains a variety of features that should ideally be included in every Twilio sample app. You can use [GitHub's repository template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) functionality to create a copy of this.
+Twilio Conversations allows you to build virtual spaces ("conversations") to communicate across multiple channels.
+
+This application shows how to add multiple external phone numbers to a Twilio Conversation and track their activity.
 
 Implementations in other languages:
 
@@ -18,35 +20,19 @@ Implementations in other languages:
 
 ### How it works
 
-This application is only a barebones Node.js application using Express.js. Whenever, possible we should be using this. However, if you are using a framework like React.js, Angular or similar that comes with their own standardized application structure, you should try to merge these by using the same `README` structure and test coverage, configuration etc. as this project.
-
-<!--
-**TODO: UML Diagram**
-
-We can render UML diagrams using [Mermaid](https://mermaidjs.github.io/).
-
-
-**TODO: Describe how it works**
--->
+This application creates a single conversation and provides a page to manage phone numbers in the conversation.
+Using a webhook it tracks the activity of every phone number in the conversation. When a phone number is iddle
+for longer than its expiration time it's removed from the conversation.
 
 ## Features
 
 - Node.js web server using [Express.js](https://npm.im/express)
-- Basic web user interface using [Pug](https://npm.im/pug) for templating and Bootstrap for UI
-- User interface to create reminders.
+- Small JSON database using [lowdb](https://github.com/typicode/lowdb).
+- User interface to add phone numbers to a [Twilio Conversation](https://www.twilio.com/conversations)
+- Async task to detect and remove inactive phone numbers.
 - Unit tests using [`mocha`](https://npm.im/mocha) and [`chai`](https://npm.im/chai)
 - [Automated CI testing using GitHub Actions](/.github/workflows/nodejs.yml)
-- Linting and formatting using [ESLint](https://npm.im/eslint) and [Prettier](https://npm.im/prettier)
-- Interactive configuration of environment variables upon running `npm run setup` using [`configure-env`](https://npm.im/configure-env)
-- Project specific environment variables using `.env` files and [`dotenv-safe`](https://npm.im/dotenv-safe) by comparing `.env.example` and `.env`.
-- One click deploy buttons for Heroku, Glitch and now.sh
-
-## How to use it
-
-1. Create a copy using [GitHub's repository template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) functionality
-2. Update the [`README.md`](README.md), [`package.json`](package.json) and [`app.json`](app.json) with the respective values.
-3. Build your app as necessary while making sure the tests pass.
-4. Publish your app to GitHub
+- One click deploy buttons for Heroku and Glitch
 
 ## Set up
 
@@ -73,40 +59,55 @@ After the above requirements have been met:
 
 1. Clone this repository and `cd` into it
 
-```bash
-git clone git@github.com:twilio-labs/sample-template-nodejs.git
-cd sample-template-nodejs
-```
+    ```bash
+    git clone git@github.com:twilio-labs/sample-conversations-masked-numbers.git
+    cd sample-conversations-masked-numbers
+    ```
 
-2. Install dependencies
+1. Install dependencies
 
-```bash
-npm install
-```
+    ```bash
+    npm install
+    ```
 
-3. Set your environment variables
+1. Set your environment variables
 
-```bash
-npm run setup
-```
+    ```bash
+    npm run setup
+    ```
 
-See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables.
+    See [Twilio Account Settings](#twilio-account-settings) to locate the necessary environment variables.
 
-4. Run the application
+1. Run the application
 
-```bash
-npm start
-```
+    ```bash
+    npm start
+    ```
 
-Alternatively, you can use this command to start the server in development mode. It will reload whenever you change any files.
+    Alternatively, you can use this command to start the server in development mode. It will reload whenever you change any files.
 
-```bash
-npm run dev
-```
+    ```bash
+    npm run dev
+    ```
 
-5. Navigate to [http://localhost:3000](http://localhost:3000)
+    Your application is now accessible at [http://localhost:3000](http://localhost:3000/)
 
-That's it!
+1. Make the application visible from the outside world.
+
+    Your application needs to be accessible in a public internet address for Twilio to be able to connect with it. You can do that in different ways, [deploying the app to a public provider](#cloud-deployment) or using [ngrok](https://ngrok.com/) to create a tunnel to your local server.
+    
+    If you have ngrok installed to open a tunnel to you local server run the following command
+    ```
+    ngrok http 3000
+    ```
+    
+    Now your application should be available in a url like:
+    ```
+    https://<unique_id>.ngrok.io/
+    ```
+
+That's it! Now you can start adding phone numbers to the conversation.
+
 
 ### Tests
 
@@ -124,17 +125,18 @@ Please be aware that some of these might charge you for the usage or might make 
 
 | Service                           |                                                                                                                                                                                                                           |
 | :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Heroku](https://www.heroku.com/) | [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)                                                                                                                                       |
-| [Glitch](https://glitch.com)      | [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/remix/clone-from-repo?REPO_URL=https://github.com/twilio-labs/sample-template-nodejs.git) |
-| [Zeit](https://zeit.co/)          | [![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/twilio-labs/sample-template-nodejs/tree/master)                                                                 |
+| [Heroku](https://www.heroku.com/) | [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/twilio-labs/sample-conversations-masked-numbers/tree/master)                                                                                                                                       |
+| [Glitch](https://glitch.com)      | [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/remix/clone-from-repo?REPO_URL=https://github.com/twilio-labs/sample-conversations-masked-numbers.git) |
 
 ## Resources
 
-- [GitHub's repository template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) functionality
+- [Twilio Conversation Quickstart](https://www.twilio.com/docs/conversations/quickstart)
+- [Create a conversation with the API](https://www.twilio.com/docs/conversations/api/conversation-resource)
+- [Add participants to a conversation with the API](https://www.twilio.com/docs/conversations/api/conversation-participant-resource)
 
 ## Contributing
 
-This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md).
+This application is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md).
 
 [Visit the project on GitHub](https://github.com/twilio-labs/sample-template-nodejs)
 
