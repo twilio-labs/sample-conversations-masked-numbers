@@ -52,6 +52,8 @@
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
     "prettier": "^1.19.1",
+    "sinon": "^8.0.4",
+    "sinon-chai": "^3.4.0",
     "supertest": "^4.0.2"
   }
 }

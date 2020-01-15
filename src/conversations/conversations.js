@@ -34,23 +34,44 @@ async function getConversation(client, conversationSid) {
 }
 
 /**
- * @param {ConversationInstance} conversation
+ * @param {TwilioClient} client
+ * @param {string} conversationSid
+ * @param {string} baseUrl
+ * @return {Promise<WebhookInstance[]>}
+ */
+async function getConversationWebhooks(client, conversationSid) {
+  return await client.conversations.v1
+    .conversations(conversationSid)
+    .webhooks.list();
+}
+
+/**
+ * @param {TwilioClient} client
+ * @param {string} conversationSid
+ * @param {WebhookInstance[]} webhooks
  * @param {string} baseUrl
  * @return {Promise<void>}
  */
-async function updateConversationWebhook(conversation, baseUrl) {
-  const webhooks = await conversation.webhooks().list();
+async function updateConversationWebhooks(
+  client,
+  conversationSid,
+  webhooks,
+  baseUrl
+) {
   if (webhooks.length > 0) {
-    await webhooks[0].update({
-      target: 'webhook',
-      configuration: {
-        url: `${baseUrl}/conversation/`,
-        method: 'POST',
-        filters: ['onMessageAdded'],
-      },
-    });
+    await client.conversations.v1
+      .conversations(conversationSid)
+      .webhooks(webhooks[0].sid)
+      .update({
+        target: 'webhook',
+        configuration: {
+          url: `${baseUrl}/conversation/`,
+          method: 'POST',
+          filters: ['onMessageAdded'],
+        },
+      });
   } else {
-    await conversation.webhooks().create({
+    await client.conversations.v1.conversations.create({
       target: 'webhook',
       configuration: {
         url: `${baseUrl}/conversation/`,
@@ -106,7 +127,8 @@ async function removeParticipant(client, conversationSid, participantSid) {
 module.exports = {
   createConversation,
   getConversation,
-  updateConversationWebhook,
+  getConversationWebhooks,
+  updateConversationWebhooks,
   removeConversation,
   addParticipant,
   removeParticipant,

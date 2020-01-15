@@ -29,7 +29,16 @@ async function getConversation(baseUrl) {
         sid: twilioConversation.sid,
       }).save();
     }
-    await conversations.updateConversationWebhook(twilioConversation, baseUrl);
+    const webhooks = await conversations.getConversationWebhooks(
+      client,
+      conversation.sid
+    );
+    await conversations.updateConversationWebhooks(
+      client,
+      conversation.sid,
+      webhooks,
+      baseUrl
+    );
   }
   return conversation;
 }

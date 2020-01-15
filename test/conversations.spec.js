@@ -1,101 +1,168 @@
-const describe = require('mocha').describe;
-const expect = require('chai').expect;
-const path = require('path');
+const chai = require('chai');
+const expect = chai.expect;
+const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
 const client = require('twilio')('ACxxx', 'fake_token');
 const conversations = require('../src/conversations/conversations');
 
-ApiMocker = require('./api_mocker').ApiMocker;
-
-const mocker = new ApiMocker(path.join(__dirname, 'fixtures'));
+chai.use(sinonChai);
 
 describe('conversations', function() {
+  afterEach(() => {
+    sinon.restore();
+  });
+
   describe('on create', function() {
     it('makes a request and returns a ConversationInstance', async function() {
-      client.httpClient.request = mocker.mock([{ resource: 'Conversations' }]);
+      const conversationInstance = require('./fixtures/conversations.instance');
+
+      sinon.stub(client.httpClient, 'request').resolves({
+        statusCode: 201,
+        body: JSON.stringify(conversationInstance),
+      });
 
       const conversation = await conversations.createConversation(
         client,
-        'name',
-        'http://fake-url'
+        'name'
       );
 
       expect(conversation).to.be.an('object');
       expect(conversation.sid).to.eql('CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-      expect(mocker.callsCounter).to.eql(1);
+      expect(client.httpClient.request).to.have.been.calledOnce;
     });
   });
 
   describe('on remove', function() {
     it('makes one request and returns true', async function() {
-      client.httpClient.request = mocker.mock([{ resource: 'Conversations' }]);
+      sinon.stub(client.httpClient, 'request').resolves({
+        statusCode: 204,
+        body: '',
+      });
 
       const response = await conversations.removeConversation(
         client,
         'CHxxxxxx'
       );
 
-      expect(response).to.eql(true);
-      expect(mocker.callsCounter).to.eql(1);
+      expect(response).to.be.true;
+      expect(client.httpClient.request).to.have.been.calledOnce;
     });
   });
 
-  describe('on fetch existing', function() {
-    it('makes one request and returns a ConversationInstance', async function() {
-      client.httpClient.request = mocker.mock([{ resource: 'Conversations' }]);
+  describe('on fetch', function() {
+    context('when conversation exists', function() {
+      it('makes one request and returns a ConversationInstance', async function() {
+        const conversationInstance = require('./fixtures/conversations.instance');
 
-      const conversation = await conversations.getConversation(
-        client,
-        'CHxxxxxx'
-      );
+        sinon.stub(client.httpClient, 'request').resolves({
+          statusCode: 201,
+          body: JSON.stringify(conversationInstance),
+        });
 
-      expect(conversation).to.be.an('object');
-      expect(conversation.sid).to.eql('CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-      expect(mocker.callsCounter).to.eql(1);
+        const conversation = await conversations.getConversation(
+          client,
+          'CHxxxxxx'
+        );
+
+        expect(conversation).to.be.an('object');
+        expect(conversation.sid).to.eql('CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+        expect(client.httpClient.request).to.have.been.calledOnce;
+      });
+    });
+
+    context('conversation does not exist', () => {
+      it('makes one request and returns null', async () => {
+        sinon.stub(client.httpClient, 'request').resolves({
+          statusCode: 404,
+          body: '{}',
+        });
+
+        const conversation = await conversations.getConversation(
+          client,
+          'CHxxxxxx'
+        );
+
+        expect(conversation).to.be.null;
+        expect(client.httpClient.request).to.have.been.calledOnce;
+      });
     });
   });
 
-  describe('on fetch non-existing', function() {
-    it('makes one request and returns null', async function() {
-      client.httpClient.request = mocker.mock([
-        { resource: 'Conversations', options: { instance: 'invalid' } },
-      ]);
+  describe('on get webhooks', function() {
+    it('makes a requests and returns an array', async function() {
+      const webhookList = require('./fixtures/webhooks.list');
 
-      const conversation = await conversations.getConversation(
+      sinon.stub(client.httpClient, 'request').resolves({
+        statusCode: 200,
+        body: JSON.stringify(webhookList),
+      });
+
+      const webhooks = await conversations.getConversationWebhooks(
         client,
-        'CHxxxxxx'
+        'CHxxx'
       );
 
-      expect(conversation).to.eql(null);
-      expect(mocker.callsCounter).to.eql(1);
+      expect(webhooks).to.be.an('array');
+      expect(client.httpClient.request).to.have.been.calledOnce;
     });
   });
 
   describe('on update webhooks', function() {
-    it('makes two requests and returns void', async function() {
-      client.httpClient.request = mocker.mock([{ resource: 'Conversations' }]);
-      const conversation = await conversations.getConversation(
-        client,
-        'CHxxxxxx'
-      );
-      client.httpClient.request = mocker.mock([
-        { resource: 'Webhooks', options: { list: 'empty' } },
-      ]);
+    context('when webhooks is empty', () => {
+      it('makes two requests and returns void', async () => {
+        const webhookList = require('./fixtures/webhooks.list');
+        const request = sinon.stub(client.httpClient, 'request');
+        request.resolves({
+          statusCode: 200,
+          body: JSON.stringify(webhookList),
+        });
 
-      const response = await conversations.updateConversationWebhook(
-        conversation,
-        'http://example.com'
-      );
+        await conversations.updateConversationWebhooks(
+          client,
+          'CHxxx',
+          [],
+          'http://example.com'
+        );
 
-      expect(response).to.eql(undefined);
-      expect(mocker.callsCounter).to.eql(2);
+        expect(client.httpClient.request).to.have.been.calledOnce;
+      });
+    });
+
+    context('when has one webhook', () => {
+      it('makes one requests and returns void', async () => {
+        const webhookList = require('./fixtures/webhooks.list');
+        const request = sinon.stub(client.httpClient, 'request');
+        request.resolves({
+          statusCode: 200,
+          body: JSON.stringify(webhookList),
+        });
+
+        await conversations.updateConversationWebhooks(
+          client,
+          'CHxxx',
+          [{ sid: 'WHxxx' }],
+          'http://example.com'
+        );
+
+        expect(client.httpClient.request).to.have.been.calledOnce;
+      });
     });
   });
 });
 
 describe('participants', function() {
+  afterEach(() => {
+    sinon.restore();
+  });
+
   describe('on add', function() {
     it('makes a request and returns a ParticipanInstance', async function() {
-      client.httpClient.request = mocker.mock([{ resource: 'Participants' }]);
+      const participantInstance = require('./fixtures/participants.instance');
+
+      sinon.stub(client.httpClient, 'request').resolves({
+        statusCode: 201,
+        body: JSON.stringify(participantInstance),
+      });
 
       const participant = await conversations.addParticipant(
         client,
@@ -105,13 +172,16 @@ describe('participants', function() {
 
       expect(participant).to.be.an('object');
       expect(participant.sid).to.eql('MBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-      expect(mocker.callsCounter).to.eql(1);
+      expect(client.httpClient.request).to.have.been.calledOnce;
     });
   });
 
   describe('on remove', function() {
     it('makes a request and returns true', async function() {
-      client.httpClient.request = mocker.mock([{ resource: 'Participants' }]);
+      sinon.stub(client.httpClient, 'request').resolves({
+        statusCode: 204,
+        body: '',
+      });
 
       const response = await conversations.removeParticipant(
         client,
@@ -119,8 +189,8 @@ describe('participants', function() {
         '+1234567890'
       );
 
-      expect(response).to.eql(true);
-      expect(mocker.callsCounter).to.eql(1);
+      expect(response).to.be.true;
+      expect(client.httpClient.request).to.have.been.calledOnce;
     });
   });
 });

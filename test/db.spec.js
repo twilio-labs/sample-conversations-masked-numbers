@@ -1,4 +1,3 @@
-const describe = require('mocha').describe;
 const expect = require('chai').expect;
 const moment = require('moment');
 
