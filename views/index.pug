@@ -2,6 +2,11 @@ extends layout
 
 block content
   h1 2-way Masked Phone Number SMS Conversation
+  p This application allows you to manage the participants in a Twilio conversation. A Twilio conversation will be
+    | created the first time you add a phone number. Every number entered in this dashboard will be automatically
+    | added as a participant to that conversation and will receive a welcome message. After the specified minutes of
+    | inactivity the numbers will be automatically removed from the conversation. It's time! Start adding numbers
+    | and sending messages.
   a.btn.btn-primary(href='add-phone') Add Phone Number
   table.table
     thead

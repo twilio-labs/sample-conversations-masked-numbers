@@ -24,6 +24,12 @@ html
                 | Home
     
     .container
+      if local
+        .row
+          div.alert.alert-danger(role='alert')
+            | You are using the application from a local address. It needs to be accessible from a public address for Twilio
+            | to be able to connect with it. Check the project README to find out what options you have to make your
+            | application publicly available.
       .row
         .col-lg-9
         block content

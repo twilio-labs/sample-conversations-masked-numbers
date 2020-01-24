@@ -11,6 +11,7 @@ const router = express.Router();
 router.get('/', async function(req, res, next) {
   res.render('index', {
     phoneNumbers: await PhoneNumber.all(),
+    local: req.hostname.includes('local'),
   });
 });
 
