@@ -2,7 +2,7 @@
 <img  src="https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg"  alt="Twilio"  width="250"  />
 </a>
  
-# 2-way Masked Phone Number SMS Conversation
+# Masked Phone Numbers over SMS with Conversations
 
 [![Actions Status](https://github.com/twilio-labs/sample-conversations-masked-numbers/workflows/Node%20CI/badge.svg)](https://github.com/twilio-labs/sample-appointment-reminders/actions)
 
