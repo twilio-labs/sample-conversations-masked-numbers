@@ -3,11 +3,11 @@ extends layout
 block content
   h1 Masked Phone Numbers over SMS with Conversations
   p This application allows you to manage the participants in #[a(href='https://www.twilio.com/conversations') Twilio Conversations]. 
-    | A Twilio conversation will be created the first time you add a phone number.
+    | A Conversation will be created the first time you add a phone number.
     | Every number entered in this dashboard will be automatically
-    | added as a participant to that conversation and will receive a welcome message. After the specified minutes of
-    | inactivity the numbers will be automatically removed from the conversation. It's time! Start adding numbers
-    | and sending messages.
+    | added as a participant to that conversation, and will receive a welcome message. After the specified minutes of
+    | inactivity, the phone numbers will be automatically removed from the conversation. 
+    | It's time! Start adding phone numbers and sending messages.
   a.btn.btn-primary(href='add-phone') Add Phone Number
   table.table
     thead
