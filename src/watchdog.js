@@ -20,7 +20,7 @@ async function phoneNumbersWatchdog() {
   const phoneNumbers = await getInactivePhoneNumbers();
   for (const phoneNumber of phoneNumbers) {
     try {
-      await conversations.sendMessage(phoneNumber, 'This session expired!');
+      await conversations.sendMessage(phoneNumber, 'This session has expired!');
       await conversations.removePhoneNumber(phoneNumber);
       await phoneNumber.delete();
     } catch (e) {
