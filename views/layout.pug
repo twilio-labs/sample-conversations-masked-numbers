@@ -11,12 +11,12 @@ html
     block styles
     link(rel='stylesheet', href='/css/style.css')
     
-    title Example App
+    title Masked Phone Numbers over SMS with Conversations
   body
     nav.navbar.navbar-default
       .container
         .navbar-header
-          a.navbar-brand(href='/') Sample App Name
+          a.navbar-brand(href='/') SMS Conversation
         div
           ul.nav.navbar-nav
             li
@@ -24,6 +24,12 @@ html
                 | Home
     
     .container
+      if local
+        .row
+          div.alert.alert-danger(role='alert')
+            | You are using the application from a local address. It needs to be accessible from a public address for Twilio
+            | to be able to connect with it. Check the project README to find out what options you have to make your
+            | application publicly available.
       .row
         .col-lg-9
         block content

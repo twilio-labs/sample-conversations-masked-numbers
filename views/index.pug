@@ -1,9 +1,25 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p Head over to 
-    a(href="/example")
-      code /example
-    | for some JSON example output 
+  h1 Masked Phone Numbers over SMS with Conversations
+  p This application allows you to manage the participants in #[a(href='https://www.twilio.com/conversations') Twilio Conversations]. 
+    | A Conversation will be created the first time you add a phone number.
+    | Every number entered in this dashboard will be automatically
+    | added as a participant to that conversation, and will receive a welcome message. After the specified minutes of
+    | inactivity, the phone numbers will be automatically removed from the conversation. 
+    | It's time! Start adding phone numbers and sending messages.
+  a.btn.btn-primary(href='add-phone') Add Phone Number
+  table.table
+    thead
+      th Phone Number
+      th Latest Active
+    tbody
+      for phoneNumber in phoneNumbers
+        tr
+          td= phoneNumber.number
+          td= phoneNumber.latestActivity
+      else
+        tr
+          td(colspan=2) There are no phone numbers registered
+
+

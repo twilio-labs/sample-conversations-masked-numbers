@@ -1,0 +1,16 @@
+{
+  "account_sid": "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "conversation_sid": "CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "sid": "WHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "target": "webhook",
+  "configuration": {
+    "url": "https://example.com",
+    "method": "get",
+    "filters": [
+      "onMessageSent"
+    ]
+  },
+  "date_created": "2016-03-24T21:05:50Z",
+  "date_updated": "2016-03-24T21:05:50Z",
+  "url": "https://conversations.twilio.com/v1/Conversations/CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Webhooks/WHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+}
