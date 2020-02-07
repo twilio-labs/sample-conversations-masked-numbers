@@ -18,7 +18,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TwilioDevEd/sample-conversations-masked-numbers"
+    "url": "https://github.com/twilio-labs/sample-conversations-masked-numbers"
   },
   "keywords": [
     "node",

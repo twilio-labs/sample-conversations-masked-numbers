@@ -59,7 +59,7 @@ async function addPhoneNumber(conversation, number, expirationTime) {
       conversation.sid,
       number
     );
-    return await new PhoneNumber({
+    return new PhoneNumber({
       sid: participant.sid,
       conversation: conversation.sid,
       number: number,
