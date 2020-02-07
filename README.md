@@ -21,7 +21,7 @@ Implementations in other languages:
 ### How it works
 
 This application creates a single conversation and provides a page to manage phone numbers in the conversation.
-Using a webhook it tracks the activity of every phone number in the conversation. When a phone number is iddle
+Using a webhook it tracks the activity of every phone number in the conversation. When a phone number is idle
 for longer than its expiration time it's removed from the conversation.
 
 ## Features
