@@ -4,7 +4,7 @@
  
 # Masked Phone Numbers over SMS with Conversations
 
-[![Actions Status](https://github.com/twilio-labs/sample-conversations-masked-numbers/workflows/Node%20CI/badge.svg)](https://github.com/twilio-labs/sample-appointment-reminders/actions)
+[![Actions Status](https://github.com/twilio-labs/sample-conversations-masked-numbers/workflows/Node%20CI/badge.svg)](https://github.com/twilio-labs/sample-conversations-masked-numbers/actions)
 
 ## About
 
