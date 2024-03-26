@@ -34,7 +34,7 @@
     "cookie-parser": "~1.4.3",
     "debug": ">=2.6.9",
     "dotenv-safe": "^4.0.4",
-    "express": "^4.17.1",
+    "express": "^4.19.2",
     "lowdb": "^1.0.0",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
