@@ -35,12 +35,12 @@
     "debug": ">=2.6.9",
     "dotenv-safe": "^4.0.4",
     "express": "^4.17.1",
-    "lowdb": "^1.0.0",
+    "lowdb": "^2.0.0",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
-    "pug": "^2.0.0-beta.12",
+    "pug": "^3.0.1",
     "serve-favicon": "^2.5.0",
-    "twilio": "^3.37.1"
+    "twilio": "^5.0.4"
   },
   "devDependencies": {
     "chai": "^3.5.0",
